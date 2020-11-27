@@ -76,3 +76,8 @@ SELECT k.rodzaj, AVG(e.ilosc*z.waga), SUM(e.ilosc) FROM kreatura AS k, ekwipunek
 WHERE k.idKreatury=e.idKreatury AND e.idZasobu=z.idZasobu AND k.rodzaj NOT IN ('malpa','waz')   
 GROUP BY rodzaj  
 HAVING SUM(e.ilosc) < 30;
+
+### Przykład 2
+SELECT a.nazwa, a.rodzaj, a.dataUr FROM kreatura a,
+(SELECT MIN(dataUr) MIN, MAX(dataUr) MAX FROM kreatura GROUP BY rodzaj) b 
+WHERE b.min = a.dataUr OR b.max=a.dataUr;
