@@ -27,3 +27,28 @@ INNER JOIN uczestnicy AS u ON u.id_wyprawy=w.id_wyprawy
 INNER JOIN kreatura AS k ON u.id_uczestnika=k.idkreatury  
 INNER JOIN ekwipunek AS e ON e.idKreatury=k.idkreatury  
 GROUP BY w.nazwa;
+
+# Zad 2
+### Przykład 1
+SELECT w.nazwa, COUNT(u.id_uczestnika), GROUP_CONCAT(k.nazwa) FROM wyprawa AS w
+JOIN uczestnicy AS u ON u.id_wyprawy=w.id_wyprawy 
+JOIN kreatura AS k ON u.id_uczestnika=k.idKreatury
+GROUP BY w.nazwa;
+
+### Przyklad 2
+SELECT ew.idEtapu, w.nazwa, s.nazwa, w.data_rozpoczecia, w.kierownik, k.nazwa FROM etapy_wyprawy AS ew 
+JOIN sektor AS s ON s.id_sektora=ew.sektor
+JOIN wyprawa AS w ON w.id_wyprawy=ew.idWyprawy
+INNER JOIN kreatura AS k ON w.kierownik=k.idKreatury
+ORDER BY w.data_rozpoczecia, ew.kolejnosc;
+
+# Zad 3
+### Przykład 1
+SELECT sektor.nazwa, COUNT(etapy_wyprawy.sektor) AS ilosc_odwiedzin FROM
+sektor LEFT JOIN etapy_wyprawy ON sektor.id_sektora=etapy_wyprawy.sektor
+GROUP BY sektor.nazwa;
+
+### Przykład 2
+SELECT DISTINCT(kreatura.nazwa), IF(uczestnicy.id_wyprawy IS NULL, "Nie bral udzialu w wyprawie", "Bral udzialu w wyprawie") FROM kreatura 
+LEFT JOIN uczestnicy ON kreatura.Idkreatury=uczestnicy.id_uczestnika
+ORDER BY kreatura.nazwa;
