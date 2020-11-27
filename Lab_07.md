@@ -44,11 +44,11 @@ ORDER BY w.data_rozpoczecia, ew.kolejnosc;
 
 # Zad 3
 ### Przykład 1
-SELECT sektor.nazwa, COUNT(etapy_wyprawy.sektor) AS ilosc_odwiedzin FROM
-sektor LEFT JOIN etapy_wyprawy ON sektor.id_sektora=etapy_wyprawy.sektor
+SELECT sektor.nazwa, COUNT(etapy_wyprawy.sektor) AS ilosc_odwiedzin FROM  
+sektor LEFT JOIN etapy_wyprawy ON sektor.id_sektora=etapy_wyprawy.sektor  
 GROUP BY sektor.nazwa;
 
 ### Przykład 2
-SELECT DISTINCT(kreatura.nazwa), IF(uczestnicy.id_wyprawy IS NULL, "Nie bral udzialu w wyprawie", "Bral udzialu w wyprawie") FROM kreatura 
-LEFT JOIN uczestnicy ON kreatura.Idkreatury=uczestnicy.id_uczestnika
-ORDER BY kreatura.nazwa;
+SELECT DISTINCT(kreatura.nazwa), IF(uczestnicy.id_wyprawy IS NULL, "Nie bral udzialu w wyprawie", "Bral udzialu w wyprawie") FROM kreatura  
+LEFT JOIN uczestnicy ON kreatura.Idkreatury=uczestnicy.id_uczestnika  
+ORDER BY kreatura.nazwa;  
