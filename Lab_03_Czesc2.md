@@ -1,0 +1,67 @@
+# Zad 1
+SELECT d.nazwa, MIN(p.pensja), AVG(p.pensja), MAX(p.pensja) FROM dzial as d  
+INNER JOIN pracownik AS p ON p.dzial=d.id_dzialu   
+GROUP BY p.dzial;  
+
+# Zad 2
+SELECT k.pelna_nazwa,SUM(pz.ilosc*pz.cena) AS Wartosc FROM klient AS k  
+INNER JOIN zamowienie AS z ON z.klient=k.id_klienta   
+INNER JOIN pozycja_zamowienia AS pz ON pz.zamowienie=z.id_zamowienia   
+GROUP BY z.id_zamowienia  
+ORDER BY wartosc    
+DESC LIMIT 10;   
+
+# Zad 3
+SELECT SUM(pz.ilosc*pz.cena) as wartosc, YEAR(z.data_zamowienia) AS rok FROM zamowienie AS z   
+INNER JOIN pozycja_zamowienia AS pz ON pz.zamowienie=z.id_zamowienia   
+GROUP BY rok ORDER BY wartosc DESC;  
+
+# Zad 4
+SELECT SUM(pz.ilosc*pz.cena) AS Wartosc, sz.nazwa_statusu_zamowienia FROM zamowienie AS z  
+INNER JOIN pozycja_zamowienia AS pz ON pz.zamowienie=z.id_zamowienia   
+INNER JOIN status_zamowienia AS sz ON sz.id_statusu_zamowienia=z.status_zamowienia   
+WHERE nazwa_statusu_zamowienia="anulowane";  
+
+# Zad 5
+SELECT ak.miejscowosc, COUNT(DISTINCT(z.id_zamowienia)), SUM(pz.ilosc*pz.cena) as Wartosc FROM klient AS k  
+INNER JOIN zamowienie AS z ON z.klient=k.id_klienta   
+INNER JOIN pozycja_zamowienia AS pz ON pz.zamowienie=z.id_zamowienia   
+INNER JOIN adres_klienta AS ak ON k.id_klienta=ak.klient   
+INNER JOIN typ_adresu AS ta ON ta.id_typu=ak.typ_adresu   
+WHERE ak.typ_adresu='1'   
+GROUP BY ak.miejscowosc WITH ROLLUP;  
+
+# Zad 6
+SELECT SUM(pz.ilosc*pz.cena)-SUM(t.cena_zakupu) AS Dotychczasowy_dochod, sz.nazwa_statusu_zamowienia FROM zamowienie AS z   
+INNER JOIN pozycja_zamowienia AS pz ON pz.zamowienie=z.id_zamowienia   
+INNER JOIN towar AS t ON t.id_towaru=pz.towar    
+INNER JOIN status_zamowienia AS sz ON sz.id_statusu_zamowienia=z.status_zamowienia  
+INNER JOIN klient AS k ON k.id_klienta=z.klient  
+WHERE nazwa_statusu_zamowienia="zrealizowane";  
+
+# Zad 7
+SELECT SUM(pz.ilosc*pz.cena)-SUM(t.cena_zakupu) AS Dochod, YEAR(z.data_zamowienia) AS Rok FROM zamowienie AS z   
+INNER JOIN pozycja_zamowienia AS pz ON pz.zamowienie=z.id_zamowienia   
+INNER JOIN towar AS t ON t.id_towaru=pz.towar    
+INNER JOIN status_zamowienia AS sz ON sz.id_statusu_zamowienia=z.status_zamowienia  
+INNER JOIN klient AS k ON k.id_klienta=z.klient  
+GROUP BY Rok;  
+
+# Zad 8
+SELECT SUM(pz.cena*sm.ilosc), k.nazwa_kategori FROM towar AS t  
+INNER JOIN pozycja_zamowienia AS pz ON pz.zamowienie=t.id_towaru  
+INNER JOIN stan_magazynowy AS sm ON sm.towar=t.id_towaru  
+INNER JOIN kategoria AS k ON k.id_kategori=t.kategoria  
+GROUP BY k.id_kategori;
+
+# Zad 9
+SELECT MONTHNAME(data_urodzenia) as miesiac, COUNT(MONTH(data_urodzenia)) as ilosc FROM pracownik    
+GROUP BY miesiac, MONTH(data_urodzenia)   
+ORDER BY MONTH(data_urodzenia);  
+
+# Zad 10
+SELECT imie, nazwisko, TIMESTAMPDIFF(MONTH, data_zatrudnienia, CURDATE())*pensja AS Koszt FROM pracownik;
+
+
+
+
